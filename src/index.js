@@ -10,7 +10,7 @@ const app = express();
 const server = http.createServer(app);
 const io = socketio(server);
 
-const port = process.env.port || 4000;
+const port = process.env.PORT || 4000;
 const publicDirecotryPath = path.join(__dirname, '../public');
 
 app.use(express.static(publicDirecotryPath));
@@ -34,8 +34,8 @@ io.on('connection', (socket) => {
 
         socket.join(user.room);
 
-        socket.emit('message', generateMessage('Admin', `Welcome! ${user.username}`));
-        socket.broadcast.to(user.room).emit('message', generateMessage('Admin', `${user.username} joined!`));
+        socket.emit('message', generateMessage('Admin', `Welcome! ${ user.username }`));
+        socket.broadcast.to(user.room).emit('message', generateMessage('Admin', `${ user.username } joined!`));
 
         io.to(user.room).emit('roomData', {
             room: user.room,
@@ -67,7 +67,7 @@ io.on('connection', (socket) => {
     socket.on('disconnect', () => {
         const user = removeUser(socket.id);
         if (user) {
-            io.to(user.room).emit('message', generateMessage('Admin', `${user.username} left!`));
+            io.to(user.room).emit('message', generateMessage('Admin', `${ user.username } left!`));
             io.to(user.room).emit('roomData', {
                 room: user.room,
                 users: getUsersInRoom(user.room)
@@ -77,5 +77,5 @@ io.on('connection', (socket) => {
 })
 
 server.listen(port, () => {
-    console.log(`Server started on port ${port}`);
+    console.log(`Server started on port ${ port }`);
 })
