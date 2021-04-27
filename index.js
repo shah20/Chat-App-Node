@@ -3,17 +3,14 @@ const http = require('http');
 const express = require('express');
 const socketio = require('socket.io');
 const Filter = require('bad-words');
-const { generateMessage, generateLocationMessage } = require('./utils/messages');
-const { addUser, removeUser, getUser, getUsersInRoom } = require('./utils/users')
+const { generateMessage, generateLocationMessage } = require('./server/src/utils/messages');
+const { addUser, removeUser, getUser, getUsersInRoom } = require('./server/src/utils/users');
 
 const app = express();
 const server = http.createServer(app);
 const io = socketio(server);
 
 const port = process.env.PORT || 4000;
-const publicDirecotryPath = path.join(__dirname, '../public');
-
-app.use(express.static(publicDirecotryPath));
 
 io.on('connection', (socket) => {
     console.log('New WebSocket connection');
@@ -75,6 +72,10 @@ io.on('connection', (socket) => {
         }
     });
 })
+
+const publicDirecotryPath = path.join(__dirname, './dist');
+
+app.use(express.static(publicDirecotryPath));
 
 server.listen(port, () => {
     console.log(`Server started on port ${ port }`);
