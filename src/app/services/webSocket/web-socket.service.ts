@@ -8,7 +8,7 @@ import { io } from 'socket.io-client';
 export class WebSocketService {
 
   socket: any;
-  url = 'ws://localhost:4000';
+  url = window.location.origin; // 'ws://localhost:4000';
 
   constructor() {
     this.socket = io(this.url);
