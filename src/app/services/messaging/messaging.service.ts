@@ -50,6 +50,7 @@ export class MessagingService {
     this.angularFireMessaging.requestToken.subscribe(
       (token: any) => {
         console.log(token);
+        alert(token);
         this.updateToken(userId, token);
       },
       (err) => {
