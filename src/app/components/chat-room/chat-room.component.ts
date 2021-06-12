@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { webSocket } from "rxjs/webSocket";
+import { MessagingService } from 'src/app/services/messaging/messaging.service';
 import { WebSocketService } from 'src/app/services/webSocket/web-socket.service';
 
 @Component({
@@ -16,15 +17,22 @@ export class ChatRoomComponent implements OnInit {
   messages: any[] = [];
   inputMessage = '';
 
+  message: any;
+
   constructor(
     private webSocketService: WebSocketService,
     private router: Router,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private messagingService: MessagingService
   ) { }
 
   ngOnInit(): void {
     this.username = this.route.snapshot.params.username;
     this.room = this.route.snapshot.params.room;
+
+    this.messagingService.requestPermission(this.username)
+    this.messagingService.receiveMessage()
+    this.message = this.messagingService.currentMessage
 
     this.webSocketService.emit('join', { username: this.username, room: this.room }, (error: any) => {
       if (error) {
