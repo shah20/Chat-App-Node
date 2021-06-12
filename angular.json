@@ -98,8 +98,7 @@
             "assets": [
               "src/favicon.ico",
               "src/favicon.png",
-              "src/assets",
-              "src/manifest.webmanifest"
+              "src/assets"
             ],
             "styles": [
               "src/styles.scss"
